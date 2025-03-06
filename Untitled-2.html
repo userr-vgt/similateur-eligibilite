@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur d'Éligibilité - Résidence Permanente Canada</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('gfg.png'); /* URL de l'image */
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+            height: 100vh; /* Pour que l'image couvre toute la hauteur de la fenêtre */
+        }
+
+        .container {
+            animation: fadeIn 1s ease-in-out;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.8); /* Fond semi-transparent pour la forme */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            margin: auto;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+     @keyframes fadeIn {
+        form {
+            opacity: 0;
+            transform: translateY(-20px);
+
+    } 
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    
+    }
+}
+input:focus, select:focus {
+    border-color: #053261;
+    box-shadow: 0px 0px 8px rgba(0, 91, 187, 0.6);
+    transition: all 0.3 ease-in-out;
+}
+button:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+}
+
+        h2 {
+            
+            align-items: center;
+            text-align: center;
+            font-size: 24px;
+            color: #053261;
+            
+        }
+    h2 .logo {
+        width: 150px;
+        height: auto;
+        margin-right: 100px;
+        padding-left: 40px;
+        justify-content: flex-start;
+    }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #063162;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        r#esult {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        #result {
+            animation: bounceIn 0.6s ease-in-out;
+        }
+        @keyframes bounceIn {
+        from {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Adaptation pour les écrans de moins de 600px (smartphones) */
+
+    } 
+    @media(max-width: 600px) {
+    .container {
+        width: 90%; /* Réduction de la largeur pour éviter les marges inutiles */
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 24px; /* Réduction de la taille du titre pour éviter qu'il dépasse */
+        text-align: center;
+    }
+
+    .logo-container {
+        justify-content: center; /* Centrer le logo sur mobile */
+        padding-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .logo {
+        width: 50px; /* Ajustement de la taille du logo */
+    }
+
+    input, select, button {
+        font-size: 16px; /* Agrandir un peu les champs pour une meilleure lisibilité */
+        padding: 12px;
+    }
+
+    button {
+        width: 100%; /* Le bouton prend toute la largeur */
+    }
+}
+
+
+        .hidden {
+            display: none;
+        }
+
+        .alert {
+            color: red;
+            font-weight: bold;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="logo-conyainer">
+        <img src="Design_sans_titre-removebg-preview.png" alt="logo" class="logo">
+        
+</div>
+<div class="container">
+    <h2>
+        
+        Simulateur d'Éligibilité pour la Résidence Permanente Canadienne</h2>
+    <form id="eligibilityForm">
+        <label>Âge :</label>
+        <input type="number" id="age" required>
+
+        <label>Situation Familiale :</label>
+        <select id="familyStatus">
+            <option value="célibataire">Célibataire</option>
+            <option value="marié">Marié</option>
+        </select>
+
+        <label>Niveau d'Études :</label>
+        <select id="education">
+            <option value="secondaire">Secondaire</option>
+            <option value="bac">Baccalauréat</option>
+            <option value="bts">BTS</option>
+            <option value="licence">Licence</option>
+            <option value="master">Master</option>
+            <option value="doctorat">Doctorat</option>
+        </select>
+
+        <label>Expérience Professionnelle (années) :</label>
+        <input type="number" id="experience" required>
+
+        <label>Test de Langue Passé ? :</label>
+        <select id="languageTest" onchange="toggleLanguageFields()">
+            <option value="non">Non</option>
+            <option value="oui">Oui</option>
+        </select>
+
+        <div id="languageDetails" class="hidden">
+            <label>Type de test :</label>
+            <select id="testType">
+                <option value="ielts">IELTS</option>
+                <option value="tef">TEF</option>
+                <option value="tcf">TCF</option>
+                <option value="celpip">CELPIP</option>
+            </select>
+
+            <label>Résultats :</label>
+            <input type="number" id="reading" placeholder="Compréhension écrite (sur 10)">
+            <input type="number" id="listening" placeholder="Compréhension orale (sur 10)">
+            <input type="number" id="writing" placeholder="Expression écrite (sur 10)">
+            <input type="number" id="speaking" placeholder="Expression orale (sur 10)">
+        </div>
+
+        <button type="button" onclick="calculateEligibility()">Vérifier l'Éligibilité</button>
+    </form>
+
+    <div id="result"></div>
+
+    <!-- Alertes -->
+    <div id="alertAge" class="alert">L'âge doit être compris entre 18 et 45 ans.</div>
+    <div id="alertExperience" class="alert">Vous devez avoir au moins 1 an d'expérience professionnelle.</div>
+    <div id="alertLanguageTest" class="alert">Les scores des tests de langue doivent être supérieurs ou égaux à 7.</div>
+    <div id="alertEducation" class="alert">Le niveau d'étude doit être supérieur ou égal au BTS.</div>
+</div>
+
+<script>
+    function toggleLanguageFields() {
+        let languageTest = document.getElementById("languageTest").value;
+        let languageDetails = document.getElementById("languageDetails");
+
+        if (languageTest === "oui") {
+            languageDetails.classList.remove("hidden");
+        } else {
+            languageDetails.classList.add("hidden");
+        }
+    }
+
+    function calculateEligibility() {
+        let age = parseInt(document.getElementById("age").value);
+        let experience = parseInt(document.getElementById("experience").value);
+        let languageTest = document.getElementById("languageTest").value;
+        let reading = parseInt(document.getElementById("reading").value);
+        let listening = parseInt(document.getElementById("listening").value);
+        let writing = parseInt(document.getElementById("writing").value);
+        let speaking = parseInt(document.getElementById("speaking").value);
+        let education = document.getElementById("education").value;
+
+        let eligible = age >= 18 && age <= 45 && experience >= 1 && education !== "secondaire" && education !== "bac";
+        let languageEligible = true;
+
+        // Validation de l'âge et de l'expérience
+        if (age < 18 || age > 45) {
+            document.getElementById("alertAge").style.display = "block";
+            eligible = false;
+        } else {
+            document.getElementById("alertAge").style.display = "none";
+        }
+
+        if (experience < 1) {
+            document.getElementById("alertExperience").style.display = "block";
+            eligible = false;
+        } else {
+            document.getElementById("alertExperience").style.display = "none";
+        }
+
+        // Validation du niveau d'études
+        if (education === "secondaire" || education === "bac") {
+            document.getElementById("alertEducation").style.display = "block";
+            eligible = false;
+        } else {
+            document.getElementById("alertEducation").style.display = "none";
+        }
+
+        // Validation des tests de langue
+        if (languageTest === "oui") {
+            if (reading < 7 || listening < 7 || writing < 7 || speaking < 7) {
+                document.getElementById("alertLanguageTest").style.display = "block";
+                languageEligible = false;
+            } else {
+                document.getElementById("alertLanguageTest").style.display = "none";
+            }
+        }
+
+        // Vérification de l'éligibilité
+        if (eligible && languageEligible) {
+            document.getElementById("result").innerHTML = "✅ Vous êtes potentiellement éligible à la résidence permanente !";
+            document.getElementById("result").style.color = "green";
+        } else {
+            document.getElementById("result").innerHTML = "❌ Vous ne remplissez pas encore toutes les conditions.";
+            document.getElementById("result").style.color = "red";
+        }
+    }
+</script>
+
+</body>
+</html>
